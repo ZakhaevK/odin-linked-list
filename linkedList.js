@@ -134,7 +134,19 @@ class LinkedList {
     prev.setNext(newNode);
     newNode.setNext(next);
     this.#size++;
+  }
 
+  removeAt(index) {
+
+    if (index >= this.size() || index < 0) {
+      return
+    }
+
+    const prev = this.#atNode(index - 1);
+    const next = prev.getNext().getNext();
+
+    prev.setNext(next);
+    this.#size--;
   }
 
   toString() {
@@ -193,6 +205,8 @@ list.insertAt("camel", 4);
 console.log("Insert at camel at 4: " + list.toString());
 list.pop();
 console.log("Tail after pop() (snake): " + list.tail().getValue());
+list.removeAt(4);
+console.log("Remove Node at index 4 (camel): " + list.toString());
 
 const list2 = new LinkedList();
 list2.append("The One Ring");
