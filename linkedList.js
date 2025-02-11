@@ -29,7 +29,7 @@ class LinkedList {
       this.#head = newNode;
       this.#tail = newNode;
     } else {
-      newNode.setNext(head);
+      newNode.setNext(this.head());
       this.#head = newNode;
     }
     this.#size++;
@@ -110,6 +110,33 @@ class LinkedList {
     return null;
   }
 
+  insertAt(value, index) {
+    const newNode = new Node();
+    newNode.setValue(value);
+
+    if (index == 0) {
+      this.prepend(value); 
+      return;
+    }
+
+    if (index == this.size()) {
+      this.append(value);
+      return
+    }
+
+    if (index > this.size() || index < 0) {
+      return
+    }
+
+    const prev = this.#atNode(index - 1);
+    const next = prev.getNext();
+
+    prev.setNext(newNode);
+    newNode.setNext(next);
+    this.#size++;
+
+  }
+
   toString() {
     let returnStr = "";
     let currentNode = this.#head;
@@ -160,16 +187,18 @@ console.log("Full list of items: " + list.toString());
 console.log("At index 1 (hamster): " + list.at(3));
 console.log("Contains snake? (true): " + list.contains("snake"));
 console.log("Contains frisbee? (false): " + list.contains("frisbee"));
-console.log("Find snake? (5): " + list.find("turtle"));
+console.log("Find snake? (4): " + list.find("snake"));
 console.log("Find dog? (0): " + list.find("dog"));
+list.insertAt("camel", 4);
+console.log("Insert at camel at 4: " + list.toString());
 list.pop();
 console.log("Tail after pop() (snake): " + list.tail().getValue());
 
 const list2 = new LinkedList();
 list2.append("The One Ring");
 console.log("New List with one item: " + list2.toString());
-console.log("New List size: " + list2.size());
-list2.pop()
-console.log("New List when popped: " + list2.toString());
-list2.pop()
-console.log("New List size after pop when empty: " + list2.size());
+console.log("New List size (1): " + list2.size());
+list2.pop();
+console.log("New List when popped (null): " + list2.toString());
+list2.pop();
+console.log("New List size after pop when empty (0): " + list2.size());
